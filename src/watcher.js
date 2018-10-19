@@ -106,7 +106,7 @@ async function main({ sendToQueue }) {
     const events = await getEvents({
       contract: eventContract,
       event: config.event,
-      fromBlock: lastProcessedBlock + 1,
+      fromBlock: parseInt(lastProcessedBlock, 10) + 1,
       toBlock: lastBlockToProcess,
       filter: config.eventFilter
     })
