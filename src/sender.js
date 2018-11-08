@@ -52,7 +52,9 @@ function resume(newBalance) {
 }
 
 async function readNonce(forceUpdate) {
-  if (forceUpdate) {
+  // always get current nonce
+  // if (forceUpdate) {
+  if (true) {
     return getNonce(web3Instance, VALIDATOR_ADDRESS)
   }
 
