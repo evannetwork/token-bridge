@@ -11,7 +11,7 @@ LOG="${LOGS_DIR}${2}.txt"
 
 if [ "${NODE_ENV}" = "production" ]; then
   exec node "${WORKER}" "${CONFIG}"
-elif [ $BRIDGE_DEBUG = "true" ]; then
+elif [ "${BRIDGE_DEBUG}" = "true" ]; then
   node --inspect "${WORKER}" "${CONFIG}" | tee -a "${LOG}" | pino-pretty
 else
   node "${WORKER}" "${CONFIG}" | tee -a "${LOG}" | pino-pretty
