@@ -13,6 +13,9 @@ const foreignErcErcAbi = require('../abis/ForeignBridgeErcToErc.abi')
 const homeErcNativeAbi = require('../abis/HomeBridgeErcToNative.abi')
 const foreignErcNativeAbi = require('../abis/ForeignBridgeErcToNative.abi')
 
+const homeNativeNativeAbi = require('../abis/HomeBridgeNativeToNative.abi')
+const foreignNativeNativeAbi = require('../abis/ForeignBridgeNativeToNative.abi')
+
 const { VALIDATOR_ADDRESS, VALIDATOR_ADDRESS_PRIVATE_KEY } = process.env
 
 let homeAbi
@@ -35,6 +38,11 @@ switch (process.env.BRIDGE_MODE) {
     foreignAbi = foreignErcNativeAbi
     id = 'erc-native'
     break
+  case 'NATIVE_TO_NATIVE':
+    homeAbi = homeNativeNativeAbi
+    foreignAbi = foreignNativeNativeAbi
+    id = 'native-native'
+    break
   default:
     if (process.env.NODE_ENV !== 'test') {
       throw new Error(`Bridge Mode: ${process.env.BRIDGE_MODE} not supported.`)
@@ -54,7 +62,6 @@ if (String(process.env.MAX_PROCESSING_TIME) === '0') {
 } else {
   maxProcessingTime = Number(process.env.MAX_PROCESSING_TIME)
 }
-
 const bridgeConfig = {
   homeBridgeAddress: process.env.HOME_BRIDGE_ADDRESS,
   homeBridgeAbi: homeAbi,
