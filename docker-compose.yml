@@ -16,7 +16,8 @@ services:
       - ~/bridge_data/rabbitmq:/var/lib/rabbitmq/mnesia
     restart: on-failure
   bridge:
-    build: .
+    image: evannetwork/token-bridge
+    container_name: token-bridge
     env_file: ./.env
     environment:
       - NODE_ENV=production
@@ -24,3 +25,30 @@ services:
       - REDIS_URL=redis://redis
     command: "true"
     restart: on-failure
+  parity-kovan:
+    image: parity/parity:stable
+    container_name: parity-kovan
+    command:
+      --chain kovan
+      --jsonrpc-interface all
+      --jsonrpc-hosts all
+  parity-evan:
+    image: parity/parity:stable
+    container_name: parity-evan
+    user: root
+    entrypoint: /home/parity/bin/parity
+    restart: always
+    command: 
+      --config /parity/config/parity.toml
+      --jsonrpc-interface all
+      --jsonrpc-hosts all
+    volumes:
+      - ./testcore-config/testcore.json:/parity/config/testcore.json
+    ports:
+      - "30303:30303"
+      - "30303:30303/udp"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"     
